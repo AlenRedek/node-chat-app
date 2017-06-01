@@ -6,7 +6,8 @@ This code was developed for educational purposes only during online course on Ud
 
 USAGE:
 <ul>
-<li>$ git clone https://github.com/AlenRedek/node-course-2-chat-app.git<li>
-<li>$ cd</li>
+<li>$ git clone https://github.com/AlenRedek/node-course-2-chat-app.git</li>
+<li>$ cd node-course-2-chat-app</li>
 <li>$ npm install</li>
+<li>$ npm start</li>
 </ul>
