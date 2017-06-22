@@ -1,11 +1,11 @@
 
 const path        = require('path');
 const http        = require('http');
-const publicPath  = path.join(__dirname, '/../public');
-
 const express     = require('express');
 const socketIO    = require('socket.io');
 
+const {generateMessage} = require('./utils/message');
+const publicPath  = path.join(__dirname, '/../public');
 const port = process.env.PORT || 3000;
 
 var app = express();
@@ -18,31 +18,14 @@ io.on('connection', (socket) => {
   console.log('New user connected');
 
   // Emits new event to a single connection
-  // socket.emit('newMessage', {
-  //   from: 'server@redek.me',
-  //   text: 'Server welcomes you',
-  //   createdAt: 'right now'
-  // });
+  socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));
 
-  socket.emit('newMessage', {
-    from: 'Admin',
-    text: 'Welcome to the chat app'
-  });
-
-  socket.broadcast.emit('newMessage', {
-      from: 'Admin',
-      text: 'New user joined',
-      createdAt: new Date().getTime()
-  });
+  socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined'));
 
   socket.on('createMessage', (message) => {
     console.log('createMessage', message);
     // Emits new event to every single connection
-    io.emit('newMessage', {
-      from: message.from,
-      text: message.text,
-      createdAt: new Date().getTime()
-    });
+    io.emit('newMessage', generateMessage(message.from, message.text));
 
     // Broadcasting is the term for emitting an event for everybody but one
     // socket.broadcast.emit('newMessage', {
@@ -50,9 +33,8 @@ io.on('connection', (socket) => {
     //     text: message.text,
     //     createdAt: new Date().getTime()
     // });
+
   });
-
-
 
   socket.on('disconnect', () => {
     console.log('User was disconnected from server');
