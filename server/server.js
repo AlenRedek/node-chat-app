@@ -22,11 +22,11 @@ io.on('connection', (socket) => {
 
   socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined'));
 
-  socket.on('createMessage', (message) => {
+  socket.on('createMessage', (message, callback) => {
     console.log('createMessage', message);
     // Emits new event to every single connection
     io.emit('newMessage', generateMessage(message.from, message.text));
-
+    callback('This is from server');
     // Broadcasting is the term for emitting an event for everybody but one
     // socket.broadcast.emit('newMessage', {
     //     from: message.from,

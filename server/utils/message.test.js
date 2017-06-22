@@ -4,7 +4,7 @@ var {generateMessage} = require('./message');
 
 describe('generateMessage', () => {
     it('should generate correct message object', () => {
-      var from = 'Jen';
+      var from = 'Alen';
       var text = 'Some message';
       var message = generateMessage(from, text);
 
