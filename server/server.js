@@ -24,6 +24,17 @@ io.on('connection', (socket) => {
   //   createdAt: 'right now'
   // });
 
+  socket.emit('newMessage', {
+    from: 'Admin',
+    text: 'Welcome to the chat app'
+  });
+
+  socket.broadcast.emit('newMessage', {
+      from: 'Admin',
+      text: 'New user joined',
+      createdAt: new Date().getTime()
+  });
+
   socket.on('createMessage', (message) => {
     console.log('createMessage', message);
     // Emits new event to every single connection
@@ -32,6 +43,13 @@ io.on('connection', (socket) => {
       text: message.text,
       createdAt: new Date().getTime()
     });
+
+    // Broadcasting is the term for emitting an event for everybody but one
+    // socket.broadcast.emit('newMessage', {
+    //     from: message.from,
+    //     text: message.text,
+    //     createdAt: new Date().getTime()
+    // });
   });
 
 
