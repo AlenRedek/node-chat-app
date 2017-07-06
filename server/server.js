@@ -5,6 +5,7 @@ const express     = require('express');
 const socketIO    = require('socket.io');
 
 const {generateMessage, generateLocationMessage} = require('./utils/message');
+const {isRealString} = require('./utils/validation');
 const publicPath  = path.join(__dirname, '/../public');
 const port = process.env.PORT || 3000;
 
@@ -17,11 +18,20 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) => {
   console.log('New user connected');
 
-  // Emits new event to a single connection
-  socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));
+  socket.on('join', (params, callback) => {
+    if ( ! isRealString(params.name) || ! isRealString(params.room) ) {
+      callback('Name and room name are required');
+    }
 
-  // Broadcasting is the term for emitting an event for everybody but one
-  socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined'));
+    socket.join(params.room);
+
+    // Emits new event to a single connection
+    socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));
+    // Broadcasting is the term for emitting an event for everybody but one
+    socket.broadcast.to(params.room).emit('newMessage', generateMessage('Admin', `${params.name} has joined`));
+
+    callback();
+  });
 
   socket.on('createMessage', (message, callback) => {
     console.log('createMessage', message);
