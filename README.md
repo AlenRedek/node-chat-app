@@ -9,4 +9,5 @@ USAGE:
 <li>$ cd node-chat-app</li>
 <li>$ npm install</li>
 <li>$ npm start</li>
+<li>Open up your browser and navigate to localhost:3000</li>
 </ul>
