@@ -1,5 +1,5 @@
 # Node.js Chat App
-Node.js real-time chat app with Socket.io
+Node.js real-time chat app with Socket.io.
 
 The web app was deployed to Heroku as well (https://salty-chamber-89306.herokuapp.com/).
 
